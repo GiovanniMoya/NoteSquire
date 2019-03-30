@@ -1,6 +1,7 @@
 import shutil
 import json
 from PIL import Image, ImageDraw
+import argparse
 
 def createImageCopy(path):
     image_cp = path[:-4]+"_boxed.jpg"
@@ -69,8 +70,12 @@ def detect_document(path):
     drawBoundaries(path, bounds_para, 'red')
     drawBoundaries(path, bounds_block, 'green')
         
-def main():
-    path = '../../IMG_3457.jpg'
-    path_cp = createImageCopy(path)
-    detect_document(path_cp)
-main()
+#def main():
+#    parser = argparse.ArgumentParser()
+#    parser.add_argument("path", type=str)
+#    args = parser.parse_args()
+#    path = args.path
+    #path = '../../sample_images/IMG_3457.jpg'
+#    path_cp = createImageCopy(path)
+#    detect_document(path_cp)
+#main()
