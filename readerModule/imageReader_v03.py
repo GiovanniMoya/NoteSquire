@@ -76,6 +76,8 @@ def detect_document(path):
     print(json.dumps(json_data, indent=4, sort_keys=True))
 #    print(json_data)
 
+    with open('out.json', 'w') as outfile:
+        json.dump(json_data, outfile)
 
 #    i = 0
 #    for rect in bounds_para:
