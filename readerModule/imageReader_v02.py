@@ -1,4 +1,5 @@
 import shutil
+import json
 from PIL import Image, ImageDraw
 
 def createImageCopy(path):
@@ -17,7 +18,7 @@ def drawBoundaries(path, bounds, color):
             bound.vertices[2].x, bound.vertices[2].y,
             bound.vertices[3].x, bound.vertices[3].y], None, color)
     image_opened.save(path)
-
+    
 def detect_document(path):
     from google.cloud import vision
     import io
@@ -25,7 +26,7 @@ def detect_document(path):
 
     bounds_para = []
     bounds_block = []
-
+    
     with io.open(path, 'rb') as image_file:
         content = image_file.read()
 
@@ -33,15 +34,20 @@ def detect_document(path):
 
     response = client.document_text_detection(image=image)
 
+    from google.protobuf.json_format import MessageToJson
+    serialized = MessageToJson(response)
+    open("out.json","w").write(serialized)
+    
     for page in response.full_text_annotation.pages:
         for block in page.blocks:
+#            json.dumps(block.__dict__,write_file)
             bounds_block.append(block.bounding_box)
             print("Block Dimensions:", block.bounding_box)
-            print('\nBlock confidence: {}\n'.format(block.confidence))
+            #print('\nBlock confidence: {}\n'.format(block.confidence))
 
             for paragraph in block.paragraphs:
                 bounds_para.append(paragraph.bounding_box)
-                print('Paragraph confidence: {}'.format(paragraph.confidence))
+                #print('Paragraph confidence: {}'.format(paragraph.confidence))
 
                 for word in paragraph.words:
                     word_text = ''.join([symbol.text for symbol in word.symbols])
@@ -50,11 +56,11 @@ def detect_document(path):
                     except:
                         print("skipped word")
 
-                    for symbol in word.symbols:
-                        try:
-                            print('\tSymbol: {} (confidence: {})'.format(symbol.text, symbol.confidence))
-                        except:
-                            print("skipped symbol")
+#                    for symbol in word.symbols:
+#                        try:
+#                            print('\tSymbol: {} (confidence: {})'.format(symbol.text, symbol.confidence))
+#                        except:
+#                            print("skipped symbol")
     i = 0
     for rect in bounds_para:
         i+=1
@@ -62,10 +68,9 @@ def detect_document(path):
         print(rect)
     drawBoundaries(path, bounds_para, 'red')
     drawBoundaries(path, bounds_block, 'green')
-
+        
 def main():
-    path = '70184-Class-Notes-Jan-9-5.jpg'
+    path = '../../IMG_3457.jpg'
     path_cp = createImageCopy(path)
     detect_document(path_cp)
-    
 main()
