@@ -35,8 +35,8 @@ def detect_document(path):
     import io
     client = vision.ImageAnnotatorClient()
 
-    bounds_para = []
-    bounds_block = []
+    json_data = {}
+    json_data["blocks"]=[]
     
     with io.open(path, 'rb') as image_file:
         content = image_file.read()
@@ -44,44 +44,39 @@ def detect_document(path):
     image = vision.types.Image(content=content)
 
     response = client.document_text_detection(image=image)
-
-#    from google.protobuf.json_format import MessageToJson
-#    serialized = MessageToJson(response)
-#    open("out.json","w").write(serialized)
     
     for page in response.full_text_annotation.pages:
         page_height = page.height
         page_width = page.width
-
+        json_data["size"]={"width":page_width, "height":page_height}
         for block in page.blocks:
-#            json.dumps(block.__dict__,write_file)
-            print(dir(block)) 
-            bounds_block.append(block.bounding_box)
-            #print("Block Dimensions:", block.bounding_box)
-            #print('\nBlock confidence: {}\n'.format(block.confidence))
-
+            bloc = {}
+            bloc["bloc_str"]=""
+            bloc["left_top_v"]={"x":block.bounding_box.vertices[0].x/float(page_width), "y":block.bounding_box.vertices[0].y/float(page_height)}
+            bloc["right_bot_v"]={"x":block.bounding_box.vertices[2].x/float(page_width), "y":block.bounding_box.vertices[2].y/float(page_height)}
+            bloc["paragraphs"]=[]
+            
             for paragraph in block.paragraphs:
-                bounds_para.append(paragraph.bounding_box)
-                x = paragraph.bounding_box.vertices.__getitem__(0)
-                #print(x)
-                para_str = ""
-                print(paragraph.bounding_box)
-                #print(dir(paragraph))
-                #print('Paragraph confidence: {}'.format(paragraph.confidence))
-
+                para = {}
+                para["para_str"] = ""
+                para["left_top_v"] = {"x":paragraph.bounding_box.vertices[0].x/float(page_width), "y":paragraph.bounding_box.vertices[0].y/float(page_height)}
+                para["right_bot_v"] = {"x":paragraph.bounding_box.vertices[2].x/float(page_width), "y":paragraph.bounding_box.vertices[2].y/float(page_height)}
                 for word in paragraph.words:
                     word_text = ''.join([symbol.text for symbol in word.symbols])
                     try:
-                        para_str += (word_text+' ')
-#                        print('Word text: {} (confidence: {})'.format( word_text, word.confidence))
+                        para["para_str"] += (word_text+' ')
                     except:
                         print("skipped word")
-                print(para_str)
-#                    for symbol in word.symbols:
-#                        try:
-#                            print('\tSymbol: {} (confidence: {})'.format(symbol.text, symbol.confidence))
-#                        except:
-#                            print("skipped symbol")
+                #print(para)
+                bloc["bloc_str"] += para["para_str"]
+                bloc["paragraphs"].append(para)
+            print(bloc)
+            json_data["blocks"].append(bloc)
+
+    print(json.dumps(json_data, indent=4, sort_keys=True))
+#    print(json_data)
+
+
 #    i = 0
 #    for rect in bounds_para:
 #        i+=1
@@ -89,13 +84,3 @@ def detect_document(path):
 #        print(rect)
 #    drawBoundaries(path, bounds_para, 'red')
 #    drawBoundaries(path, bounds_block, 'green')
-        
-#def main():
-#    parser = argparse.ArgumentParser()
-#    parser.add_argument("path", type=str)
-#    args = parser.parse_args()
-#    path = args.path
-    #path = '../../sample_images/IMG_3457.jpg'
-#    path_cp = createImageCopy(path)
-#    detect_document(path_cp)
-#main()
