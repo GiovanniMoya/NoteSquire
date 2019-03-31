@@ -2,6 +2,7 @@ import shutil
 import json
 from PIL import Image, ImageDraw
 import argparse
+import sys
 
 def createImageCopy(path):
     image_cp = "./temp/images/"+path[7:-4]+"_boxed.jpg"
@@ -172,7 +173,22 @@ def imageReader(path):
     drawBoundaries(draw, bounds_paragraph, 'green')
     
     image_opened.save(path_cp)
+
+
+def main():
+    if ((len(sys.argv) != 2)):
+        print(len(sys.argv))
+        print("Have just one argument man")
+        sys.exit(0)
     
+    parser = argparse.ArgumentParser()
+    parser.add_argument("path", type=str)
+    args = parser.parse_args()
+    path = args.path
+    imageReader(path)
+    
+main()
+                                    
 #    i = 0
 #    for rect in bounds_para:
 #        i+=1
