@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+//import { Link } from 'react-router-dom'
 import './App.css';
+//import { createStackNavigator, createAppContainer } from 'react-navigation';
 
-class App extends Component {
+
+class Upload extends Component {
 
   constructor(props){
     super(props);
@@ -16,6 +19,9 @@ class App extends Component {
     console.log(event.target.files[0]);
   }
 //image-location
+////<button>ENTER</button>
+
+//<Link to="/C/Users/Ashkan/LAHacks/NoteSquire/JSON_To_React/App" className="btn btn-primary">hello</Link>
   render() {
     return (
       <div className="App">
@@ -42,4 +48,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Upload;
