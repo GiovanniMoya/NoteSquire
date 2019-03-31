@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import CloudUploadIcon from './cloudUpload.svg';
 import './App.css';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Fab from '@material-ui/core/Fab';
 import './App.css';
 import { lightGreen, pink, amber } from '@material-ui/core/colors';
 import CardMedia from '@material-ui/core/CardMedia';
 import withStyles from '@material-ui/core/styles/withStyles';
-
+import PropTypes from 'prop-types';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from '@material-ui/core/Button';
 
 
 function importAll(r) {
@@ -139,11 +141,23 @@ function Page(props) {
 
 class App extends Component {
 
+  state = {
+    open: false,
+  };
+
+  handleClick = () => {
+    this.setState({
+      secondLoaded: true,
+    });
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      items:{},
-      isLoaded:false
+      textItems:{},
+      imageData:{},
+      isLoaded:false,
+      secondLoaded:false
     }
   }
 
@@ -169,25 +183,46 @@ class App extends Component {
 
     var { isLoaded, textItem, imageData } = this.state;
     if (!isLoaded) {
-      console.log(imageData);
       return (
-        <div>Loading...</div>
-
+        <CircularProgress color={'secondary'} size={'150px'} style={{
+            position:'absolute',
+            left:'45%',
+            top:'45%'
+        }}/>
       );
     }
     else {
-          return (
+        return (
 
-            <body style={{
-              paddingTop: '5%',
-              paddingBottom: "115%",
-              minWidth: '240px',
-              minHeight: '120px',
-              width: '100vw'
-            }}>
-              <Page data={textItem} images={imageData} />
-            </body>
-          );
+          <body style={{
+            paddingTop: '5%',
+            paddingBottom: "115%",
+            minWidth: '240px',
+            minHeight: '120px',
+            width: '100vw'
+          }}>
+            <Page data={textItem} images={imageData} />
+          </body>
+        );
+        // else
+        // {
+        //   return (
+        //     <body style={{
+        //       paddingTop: '5%',
+        //       paddingBottom: "115%",
+        //       minWidth: '240px',
+        //       minHeight: '120px',
+        //       width: '100vw'
+        //     }}>
+        //     <label htmlFor="contained-button-file">
+        //       <Button variant="contained" color="default" onClick={this.handleClick}>
+        //         Upload
+        //         <CloudUploadIcon/>
+        //       </Button>
+        //     </label>
+        //     </body>
+        //   );
+        // }
     }
 
 
