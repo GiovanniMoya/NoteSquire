@@ -18,10 +18,16 @@ For the implementation of the digitalization, we used Google Cloud Vision API 's
 
 # Sample Outputs
 sample input image:
-![withTagIndex_a0](https://user-images.githubusercontent.com/42255588/55291814-30c71a80-5398-11e9-9e05-31b7a06be759.JPG)
+
+<img src="https://user-images.githubusercontent.com/42255588/55291814-30c71a80-5398-11e9-9e05-31b7a06be759.JPG" width="30%" height="30%">
 
 cropped diagram images:
 
-<img src="https://user-images.githubusercontent.com/42255588/55291844-7c79c400-5398-11e9-8111-12cfdd7421b8.jpg" width="40%" height="40%">
-<img src="https://user-images.githubusercontent.com/42255588/55291845-7c79c400-5398-11e9-8c85-508d6bd888f8.jpg" width="40%" height="40%">
+<img src="https://user-images.githubusercontent.com/42255588/55291844-7c79c400-5398-11e9-8111-12cfdd7421b8.jpg" width="50%" height="50%">
+<img src="https://user-images.githubusercontent.com/42255588/55291845-7c79c400-5398-11e9-8c85-508d6bd888f8.jpg" width="50%" height="50%">
 
+GCP detected text regions:
+
+<img src="https://user-images.githubusercontent.com/42255588/55291998-345ba100-539a-11e9-93f4-726efb280fe1.jpg" width="40%" height="40%">
+
+<img src="https://user-images.githubusercontent.com/42255588/55292099-5ace0c00-539b-11e9-9e2a-f683b8f7dfe0.png">
