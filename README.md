@@ -17,3 +17,11 @@ For the basic web framework we used node.js with react, which we used to create 
 For the implementation of the digitalization, we used Google Cloud Vision API 's OCR with python scripts to extract text and their positional values from the image. Then the python scripts outputs two JSON files (one containing string & positional values of the detected text in image, and the other containing positional values of the cropped diagram images in the image) and varying amount of cropped diagram image files. A react app then loads the JSON and image files, which then creates the resulting HTML file.
 
 # Sample Outputs
+sample input image:
+![withTagIndex_a0](https://user-images.githubusercontent.com/42255588/55291814-30c71a80-5398-11e9-9e05-31b7a06be759.JPG)
+
+cropped diagram images:
+
+<img src="https://user-images.githubusercontent.com/42255588/55291844-7c79c400-5398-11e9-8111-12cfdd7421b8.jpg" width="40%" height="40%">
+<img src="https://user-images.githubusercontent.com/42255588/55291845-7c79c400-5398-11e9-8c85-508d6bd888f8.jpg" width="40%" height="40%">
+
