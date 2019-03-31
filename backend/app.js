@@ -80,13 +80,15 @@ function pythonScript(path) {
     console.log('Running function GET...')
     //....../backend
     dir = '..' + __dirname 
-    var child = exec('python ../readerModule/a_imageReader.py ./temp/70184-class-notes-jan-9-5.jpg',{
+    var child = exec('python ../readerModule/a_imageReader.py ../readerModule/temp/70184-class-notes-jan-9-5.jpg',{
         cwd: 'C:/Users/Ashkan/LAHacks/NoteSquire/backend'
       },)
     //var child = exec('python ./test_1.py ' + "fuck")
+  //   child.stdout.on('data', function(data) {
+  //     console.log('stdin: ' + data)
+  // })
     child.stderr.on('data', function(data) {
-        console.log('stdout: ' + data)
-        console.s
+        console.log('stderr: ' + data)
     })
     child.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
