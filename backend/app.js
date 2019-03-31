@@ -48,18 +48,21 @@ function sendFilePath(req, res,next)  {
         //maybe redirect
     }
     */
+    var newpath;
    var form = new formidable.IncomingForm();
    form.parse(req, function (err, fields, files) {
      var oldpath = files.imageLocation.path;
      console.log("OldPath:" + oldpath)
-     var newpath = './images/' + files.imageLocation.name;
+     newpath = './images/' + files.imageLocation.name;
      console.log("NewPath:" + newpath)
      fileSystem.rename(oldpath, newpath, function (err) {
        if (err) throw err;
        res.write('File uploaded and moved!');
        res.end();
      });
-});
+   });
+
+    pythonScript(newpath)
    //C:\Users\Ashkan\PythonProjects\NoteSquire\readerModule
 //    var child = exec('python C:/Users/Ashkan/PythonProjects/recog.py',location)
 //    //var child = exec('C:/Users/Ashkan/PythonProjects/NoteSquire/readerModule/tester_main.py',location)
@@ -68,13 +71,10 @@ function sendFilePath(req, res,next)  {
 //         res.send(location)
 //     })
 }
-function pythonScript(req, res) {
+function pythonScript(path) {
     console.log('Running function GET...')
-    var child = exec('python C:/Users/Ashkan/PythonProjects/sample.py')
-    child.stdout.on('data', function(data) {
-        console.log('stdout: ' + data)
-        res.send(data)
-    })
+    var child = exec('python /home/bin315a1/0_NoteSquire/noteSquire_repo/NoteSquire/readerModule/a_imageReader.py',path)
+    
 }
 
  
