@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Fab from '@material-ui/core/Fab';
+import './App.css';
+import { lightGreen, pink, amber } from '@material-ui/core/colors';
+import CardMedia from '@material-ui/core/CardMedia';
+import withStyles from '@material-ui/core/styles/withStyles';
+
+
 
 function importAll(r) {
   let images = {};
@@ -35,7 +45,7 @@ function Image(props) {
   return (
     images.map(image => (
       console.log(image),
-      <img src={imgs[`img${image.index}.jpg`]} alt="image not loaded" style={{
+      <CardMedia component="img" image={imgs[`img${image.index}.jpg`]} title="image not loaded" style={{
         position:'absolute',
         left:image.coordinates.left_top.x*100+'%',
         top:image.coordinates.left_top.y*100+'%',
@@ -88,14 +98,15 @@ function Page(props) {
   }
 
   return (
-
-      <div class='page' style={{
+      <Paper style={{
         position: 'absolute',
         paddingBottom: (page.dimensions.aspectRatio)*90 + 'vw',
         width: '70vw',
         left:'15vw',
         right:'15vw',
-        fontSize:'10vw'
+        fontSize:'10vw',
+        backgroundColor: amber[50],
+        zIndex:1
       }}>
       {[
         <Image images={props.images} pageSize={{
@@ -105,38 +116,25 @@ function Page(props) {
         page.blocks.map(block => (
           console.log((block.coordinates.right_bot.x - block.coordinates.left_top.x) * 100),
           block.paragraphs.map(paragraph => (
-                  <p style={{
+                  <Typography variant="body1" style={{
                     position:'absolute',
                     fontSize: '17%',
                     left:(paragraph.coordinates.left_top.x * 100)+'%',
                     top:(paragraph.coordinates.left_top.y * 100)+'%',
                     height:(paragraph.coordinates.right_bot.y - paragraph.coordinates.left_top.y) * 100 + '%',
-                    width:'70%'
+                    fontFamily: 'Oswald, sans-serif',
+                    paddingRight:'30px'
                   }}>
                   {paragraph.element}
-                  </p>
+                  </Typography>
           ))
 
       ))
 
     ]}
-    </div>
+    </Paper>
 
   );
-}
-
-function loadTextData (path) {
-  try {
-    var data = require('/Users/jaminapps/Documents/Programming/react/json-to-webpage/src/text_data.json');
-    console.log(data);
-    return require('/Users/jaminapps/Documents/Programming/react/testparse/src/out.json');
-  }
-  catch(err) {
-    console.log('error');
-  }
-}
-
-function loadPictureData (path) {
 }
 
 class App extends Component {
