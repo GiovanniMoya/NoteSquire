@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './Results.css';
 
 function Page(props) {
 
@@ -98,7 +98,7 @@ function loadData (path) {
   }
 }
 
-class App extends Component {
+class Results extends Component {
 
   constructor(props) {
     super(props);
@@ -109,9 +109,10 @@ class App extends Component {
   }
 
   componentDidMount() {
-
     try {
-      var data = require('/Users/jaminapps/Documents/Programming/react/testparse/src/out.json');
+      //C:\Users\Ashkan\LAHacks\NoteSquire\readerModule\temp
+      //var data = require('/Users/jaminapps/Documents/Programming/react/testparse/src/out.json');
+      var data = require('C:/Users/Ashkan/LAHacks/NoteSquire/readerModule/temp/text_data.json');
       this.setState({
         item: data,
         isLoaded:true,
@@ -145,4 +146,4 @@ class App extends Component {
 
 }
 
-export default App;
+export default Results;
