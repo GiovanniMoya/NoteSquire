@@ -3,9 +3,11 @@ import json
 from PIL import Image, ImageDraw
 import argparse
 import sys
+import os
 
 def createImageCopy(path):
-    image_cp = "./temp/images/"+path[7:-4]+"_boxed.jpg"
+    #image_cp = "C:/Users/Ashkan/LAHacks/NoteSquire/readerModule/temp/images/"+path[7:-4]+"_boxed.jpg"
+    image_cp = "C:/Users/Ashkan/LAHacks/NoteSquire/readerModule/temp/boxed.jpg"
     shutil.copy(path, image_cp)
     return image_cp
 
@@ -85,7 +87,9 @@ def first_run(path):
         json_data["images"]=img_vertices
 
     #print(json.dumps(json_data, indent=4, sort_keys=True))
-    with open('./temp/image_data.json', 'w') as outfile:
+    #with open('./temp/image_data.json', 'w') as outfile:
+    cwd = os.getcwd()
+    with open('C:/Users/Ashkan/LAHacks/NoteSquire/readerModule/temp/image_data.json', 'w') as outfile:
         json.dump(json_data, outfile)
 
     return img_bounds
@@ -155,7 +159,8 @@ def detect_document(path, img_bounds):
     print(json.dumps(json_data, indent=4, sort_keys=True))
 #    print(json_data)
 
-    with open('./temp/text_data.json', 'w') as outfile:
+    cwd = os.getcwd()
+    with open('C:/Users/Ashkan/LAHacks/NoteSquire/readerModule/temp/text_data.json', 'w') as outfile:
         json.dump(json_data, outfile)
 
     return (bounds_block, bounds_paragraph)
@@ -176,6 +181,8 @@ def imageReader(path):
 
 
 def main():
+    cwd = os.getcwd()
+    print(cwd)
     if ((len(sys.argv) != 2)):
         print(len(sys.argv))
         print("Have just one argument man")
@@ -186,6 +193,8 @@ def main():
     args = parser.parse_args()
     path = args.path
     imageReader(path)
+    exit(0)
+    #sys.stdout.flush()
     
 main()
                                     
