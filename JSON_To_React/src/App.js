@@ -38,8 +38,7 @@ function Image(props) {
       <img src={imgs[`img${image.index}.jpg`]} alt="image not loaded" style={{
         position:'absolute',
         left:image.coordinates.left_top.x*100+'%',
-        top:image.coordinates.left_top.y*100-3+'%',
-        paddingBottom: aspectRatio*100+'%',
+        top:image.coordinates.left_top.y*100+'%',
         width: image.imageRatio*100+'%'
       }} />
     ))
@@ -52,7 +51,7 @@ function Page(props) {
     dimensions: {
       width:props.data.size.width,
       height:props.data.size.height,
-      aspectRatio: props.data.size.height/props.data.size.width
+      aspectRatio: (props.data.size.height/props.data.size.width)
     }
   };
 
@@ -92,11 +91,10 @@ function Page(props) {
 
       <div class='page' style={{
         position: 'absolute',
-        paddingBottom: (page.dimensions.aspectRatio)*100 + 'vw',
-        paddingTop: '3%',
-        width: '70%',
-        left:'15%',
-        right:'15%',
+        paddingBottom: (page.dimensions.aspectRatio)*90 + 'vw',
+        width: '70vw',
+        left:'15vw',
+        right:'15vw',
         fontSize:'10vw'
       }}>
       {[
@@ -109,35 +107,15 @@ function Page(props) {
           block.paragraphs.map(paragraph => (
                   <p style={{
                     position:'absolute',
-                    fontSize: '15%',
+                    fontSize: '17%',
                     left:(paragraph.coordinates.left_top.x * 100)+'%',
                     top:(paragraph.coordinates.left_top.y * 100)+'%',
                     height:(paragraph.coordinates.right_bot.y - paragraph.coordinates.left_top.y) * 100 + '%',
-                    width:(paragraph.coordinates.right_bot.x - paragraph.coordinates.left_top.x) * 100 + '%'
+                    width:'70%'
                   }}>
                   {paragraph.element}
                   </p>
           ))
-          // <div class='block' style={{
-          //   position:'absolute',
-          //   left:(block.coordinates.left_top.x * 100)+'%',
-          //   top:(block.coordinates.left_top.y * 100)+'%',
-          //   height:(block.coordinates.right_bot.y - block.coordinates.left_top.y) * 100 + '%',
-          //   width: (block.coordinates.right_bot.x - block.coordinates.left_top.x) * 100 + '%'
-          // }}>
-          //   {
-          //     block.paragraphs.map(paragraph => (
-          //       <p style={{
-          //         position:'absolute',
-          //         fontSize: '10%',
-          //         left:(paragraph.coordinates.left_top.x * 100)+'%',
-          //         top:(paragraph.coordinates.left_top.y * 100)+'%'
-          //       }}>
-          //       {paragraph.element}
-          //       </p>
-          //     ))
-          //   }
-          // </div>
 
       ))
 
@@ -202,29 +180,12 @@ class App extends Component {
     else {
           return (
 
-            <head>
-              <link
-                rel="stylesheet"
-                href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
-                integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX"
-                crossorigin="anonymous"
-              />
-              <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
-              <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous"/>
-
-              <link
-                rel="stylesheet"
-                href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-                integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-                crossorigin="anonymous"
-              />
-            </head>,
-
             <body style={{
               paddingTop: '5%',
-              paddingBottom: '5%',
-              minWidth: '2400px',
-              minHeight: '1200px'
+              paddingBottom: "115%",
+              minWidth: '240px',
+              minHeight: '120px',
+              width: '100vw'
             }}>
               <Page data={textItem} images={imageData} />
             </body>
