@@ -1,5 +1,5 @@
 import inotify.adapters
-import imageReader_v02 as ir
+import a_imageReader as ir
 import re
 
 def _main():
@@ -15,7 +15,7 @@ def _main():
                 #print("CREATION!!")
                 #print(event[3])
                 print("outer print")
-                if re.search("^.*\.(jpg|png)$", event[3]):
+                if re.search("^.*\.(jpg|png|JPG)$", event[3]):
                     print("called")
-                    ir.detect_document("./temp/"+event[3])
+                    ir.imageReader("./temp/"+event[3])
 _main()
