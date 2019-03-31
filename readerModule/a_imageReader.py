@@ -4,7 +4,7 @@ from PIL import Image, ImageDraw
 import argparse
 
 def createImageCopy(path):
-    image_cp = path[:-4]+"_boxed.jpg"
+    image_cp = "./temp/images/"+path[7:-4]+"_boxed.jpg"
     shutil.copy(path, image_cp)
     return image_cp
 
@@ -35,6 +35,8 @@ def get_response(path):
 def first_run(path):
     response = get_response(path)
     json_data = {}
+
+    img_bounds=[]
     
     for page in response.full_text_annotation.pages:
         img_vertices = []
@@ -63,7 +65,7 @@ def first_run(path):
                             img["right_bot_v"]={"x":block.bounding_box.vertices[2].x, "y": block.bounding_box.vertices[2].y}
         i=1
         for image in img_vertices:
-            output_filename = "./temp/img"+str(i)+".jpg"
+            output_filename = "./temp/images/img"+str(i)+".jpg"
             try:
                 x_t=image["left_top_v"]["x"]
                 x_b=image["right_bot_v"]["x"]
@@ -71,7 +73,8 @@ def first_run(path):
                 y_b=image["right_bot_v"]["y"]
             except:
                 pass
-            box = (x_t, y_t, x_b,  y_b)
+            box = (x_t, y_t, x_b, y_b)
+            img_bounds.append(box)
             input_img = Image.open(path)
             input_img = input_img.transpose(Image.ROTATE_270)
 #            input_img.show()
@@ -80,11 +83,31 @@ def first_run(path):
             i+=1
         json_data["images"]=img_vertices
 
-    print(json.dumps(json_data, indent=4, sort_keys=True))
+    #print(json.dumps(json_data, indent=4, sort_keys=True))
     with open('./temp/image_data.json', 'w') as outfile:
         json.dump(json_data, outfile)
-        
-def detect_document(path):
+
+    return img_bounds
+
+def in_img(img_bounds, bounding_box):
+    print(img_bounds)
+    x_t=bounding_box.vertices[0].x
+    y_t=bounding_box.vertices[0].y
+    x_b=bounding_box.vertices[2].x
+    y_b=bounding_box.vertices[2].y
+    box = (x_t, y_t, x_b, y_b)
+    #bounds: (3,3,6,6)
+    print("tested block:", box)
+    for bounds in img_bounds:
+        print("all the img_bound s:" ,bounds)
+        if (bounds[0]<box[0] and bounds[2]>box[0] and bounds[1]<box[1] and bounds[3]>box[1]) or (bounds[0] < box[2] and bounds[2] > box[2] and bounds[1]<box[3] and bounds[3]>box[3]):
+            print("\n\n\n\n\n")
+            return True
+        else:
+            pass
+    return False
+
+def detect_document(path, img_bounds):
 
     response=get_response(path)
 
@@ -123,11 +146,12 @@ def detect_document(path):
                 bloc["paragraphs"].append(para)
 
                 bounds_paragraph.append(paragraph.bounding_box)
-                
-#            print(bloc)
-            json_data["blocks"].append(bloc)
-
-#    print(json.dumps(json_data, indent=4, sort_keys=True))
+            if in_img(img_bounds, block.bounding_box):
+                pass
+            else:
+                json_data["blocks"].append(bloc)
+     #       json_data["blocks"].append(bloc)
+    print(json.dumps(json_data, indent=4, sort_keys=True))
 #    print(json_data)
 
     with open('./temp/text_data.json', 'w') as outfile:
@@ -136,10 +160,9 @@ def detect_document(path):
     return (bounds_block, bounds_paragraph)
 
 def imageReader(path):
-    first_run(path)
-    bounds_block, bounds_paragraph = detect_document(path)
+    img_bounds = first_run(path)
+    bounds_block, bounds_paragraph = detect_document(path, img_bounds)
     path_cp = createImageCopy(path)
-
 
     image_opened = Image.open(path_cp)
     image_opened = image_opened.transpose(Image.ROTATE_270)

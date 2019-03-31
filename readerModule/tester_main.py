@@ -1,4 +1,4 @@
-import imageReader_v03 as ir
+import a_imageReader as ir
 
 def main():
 #    parser = argparse.ArgumentParser()
