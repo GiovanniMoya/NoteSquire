@@ -30,4 +30,6 @@ GCP detected text regions: (look closely and there are lines)
 
 <img src="https://user-images.githubusercontent.com/42255588/55291998-345ba100-539a-11e9-93f4-726efb280fe1.jpg" width="80%" height="80%">
 
-<img src="https://user-images.githubusercontent.com/42255588/55292099-5ace0c00-539b-11e9-9e2a-f683b8f7dfe0.png">
+Outputted page of digital note:
+
+<img src="https://user-images.githubusercontent.com/42255588/55292099-5ace0c00-539b-11e9-9e2a-f683b8f7dfe0.png" width="80%" height="80%">
