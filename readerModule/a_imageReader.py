@@ -176,6 +176,10 @@ def imageReader(path):
 
 
 def main():
+    from pathlib import Path
+
+    mypath = Path().absolute()
+    print(mypath)
     if ((len(sys.argv) != 2)):
         print(len(sys.argv))
         print("Have just one argument man")
@@ -186,6 +190,7 @@ def main():
     args = parser.parse_args()
     path = args.path
     imageReader(path)
+    exit(0)
     
 main()
                                     
